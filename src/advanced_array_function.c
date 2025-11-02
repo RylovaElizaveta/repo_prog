@@ -1,5 +1,5 @@
 #include "../include/advanced_array_function.h"
-#include <stdlib.h>
+
 int max_subarray_sum(int* nums, int size) {
     int max = nums[0];
     for (int length = 0; length < size; length++) {
