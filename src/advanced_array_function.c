@@ -42,7 +42,6 @@ int* merge(int* intervals, int intervalsSize, int* returnSize) {
     int* result = malloc(intervalsSize * sizeof(int));
     int cnt = 0;
 
-    // Сортировка пузырьком
     for (int i = 0; i < n - 1; i++) {
         for (int j = 0; j < n - i - 1; j++) {
             if (intervals[2*j] > intervals[2*(j+1)]) {
