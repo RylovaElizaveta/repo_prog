@@ -46,29 +46,44 @@ int* merge(int* intervals, int intervalsSize, int* returnSize) {
         return NULL;
     }
 
-    int n = intervalsSize / 2;
-    int* res = malloc(intervalsSize * sizeof(int));
+    int n = intervalsSize;
+    int* res = malloc(2 * n * sizeof(int));
     int count = 0;
 
-    for (int i = 0; i < n - 1; i++)
-        for (int j = 0; j < n - i - 1; j++)
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
             if (intervals[2*j] > intervals[2*(j+1)]) {
-                int t0 = intervals[2*j], t1 = intervals[2*j+1];
-                intervals[2*j] = intervals[2*(j+1)]; intervals[2*j+1] = intervals[2*(j+1)+1];
-                intervals[2*(j+1)] = t0; intervals[2*(j+1)+1] = t1;
+                int t0 = intervals[2*j];
+                int t1 = intervals[2*j+1];
+                intervals[2*j] = intervals[2*(j+1)];
+                intervals[2*j+1] = intervals[2*(j+1)+1];
+                intervals[2*(j+1)] = t0;
+                intervals[2*(j+1)+1] = t1;
             }
-
-    res[0] = intervals[0]; res[1] = intervals[1];
-    for (int i = 1; i < n; i++) {
-        if (intervals[2*i] <= res[2*count+1]) {
-            if (intervals[2*i+1] > res[2*count+1]) res[2*count+1] = intervals[2*i+1];
-        } else {
-            res[2*++count] = intervals[2*i];
-            res[2*count+1] = intervals[2*i+1];
         }
     }
 
-    *returnSize = 2 * (count + 1);
+    res[0] = intervals[0];
+    res[1] = intervals[1];
+    count = 1;
+
+    for (int i = 1; i < n; i++) {
+        int current_start = intervals[2*i];
+        int current_end = intervals[2*i+1];
+        int last_end = res[2*count-1];
+
+        if (current_start <= last_end) {
+            if (current_end > last_end) {
+                res[2*count-1] = current_end;
+            }
+        } else {
+            res[2*count] = current_start;
+            res[2*count+1] = current_end;
+            count++;
+        }
+    }
+
+    *returnSize = count;
     return res;
 }
 
