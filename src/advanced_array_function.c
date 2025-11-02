@@ -22,7 +22,6 @@ int length_of_lis(int* nums, int numsSize) {
         for (int j = 0; j < numsSize - length; j++) {
             int flag = 1;
             for (int i = 0; i < length - 1; i++) {
-                printf("j = %d l = %d a = %d b = %d\n", j, length, nums[j + 1], nums[i + 1]);
                 if (nums[j + i] >= nums[j + i + 1]) {
                     flag = 0;
                     break;
@@ -67,6 +66,6 @@ int* merge(int* intervals, int intervalsSize, int* returnSize) {
         }
     }
     *returnSize = 2 * (cnt + 1);
-    return NULL;
+    return result;
 }
 
