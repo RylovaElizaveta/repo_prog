@@ -41,35 +41,34 @@ int length_of_lis(int* nums, int numsSize) {
 }
 
 int* merge(int* intervals, int intervalsSize, int* returnSize) {
-    int n = intervalsSize / 2;
-    int* result = malloc(intervalsSize * sizeof(int));
-    int cnt = 0;
+    if (intervalsSize == 0) {
+        *returnSize = 0;
+        return NULL;
+    }
 
-    for (int i = 0; i < n - 1; i++) {
-        for (int j = 0; j < n - i - 1; j++) {
+    int n = intervalsSize / 2;
+    int* res = malloc(intervalsSize * sizeof(int));
+    int count = 0;
+
+    for (int i = 0; i < n - 1; i++)
+        for (int j = 0; j < n - i - 1; j++)
             if (intervals[2*j] > intervals[2*(j+1)]) {
-                int t0 = intervals[2*j];
-                int t1 = intervals[2*j+1];
-                intervals[2*j] = intervals[2*(j+1)];
-                intervals[2*j+1] = intervals[2*(j+1)+1];
-                intervals[2*(j+1)] = t0;
-                intervals[2*(j+1)+1] = t1;
+                int t0 = intervals[2*j], t1 = intervals[2*j+1];
+                intervals[2*j] = intervals[2*(j+1)]; intervals[2*j+1] = intervals[2*(j+1)+1];
+                intervals[2*(j+1)] = t0; intervals[2*(j+1)+1] = t1;
             }
-            result[0] = intervals[0];
-            result[1] = intervals[1];
-            for (int i = 1; i < n; i++) {
-                if (intervals[2*i] <= result[2*cnt+1]) {
-                    if (intervals[2*i+1] > result[2*cnt+1]) {
-                        result[2*cnt+1] = intervals[2*i+1];
-                    }
-                } else {
-                    result[2*++cnt] = intervals[2*i];
-                    result[2*cnt+1] = intervals[2*i+1];
-                }
-            }
+
+    res[0] = intervals[0]; res[1] = intervals[1];
+    for (int i = 1; i < n; i++) {
+        if (intervals[2*i] <= res[2*count+1]) {
+            if (intervals[2*i+1] > res[2*count+1]) res[2*count+1] = intervals[2*i+1];
+        } else {
+            res[2*++count] = intervals[2*i];
+            res[2*count+1] = intervals[2*i+1];
         }
     }
-    *returnSize = 2 * (cnt + 1);
-    return result;
+
+    *returnSize = 2 * (count + 1);
+    return res;
 }
 
