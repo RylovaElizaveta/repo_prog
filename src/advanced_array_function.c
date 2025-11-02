@@ -67,6 +67,6 @@ int* merge(int* intervals, int intervalsSize, int* returnSize) {
         }
     }
     *returnSize = 2 * (cnt + 1);
-    return result;
+    return NULL;
 }
 
