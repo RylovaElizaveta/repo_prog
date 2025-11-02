@@ -21,23 +21,24 @@ int max_subarray_sum(int* nums, int size) {
 }
 
 int length_of_lis(int* nums, int numsSize) {
-    int max = 1;
-    for (int length = 2; length <= numsSize; length++) {
-        for (int j = 0; j < numsSize - length; j++) {
-            int flag = 1;
-            for (int i = 0; i < length - 1; i++) {
-                if (nums[j + i] >= nums[j + i + 1]) {
-                    flag = 0;
-                    break;
-                }
-            }
-            if (flag == 1) {
-                max = length;
-                break;
+    if (numsSize == 0) return 0;
+
+    int length[numsSize];
+    int max_len = 1;
+
+    for (int i = 0; i < numsSize; i++) {
+        length[i] = 1;
+        for (int j = 0; j < i; j++) {
+            if (nums[i] > nums[j] && length[j] + 1 > length[i]) {
+                length[i] = length[j] + 1;
             }
         }
+        if (length[i] > max_len) {
+            max_len = length[i];
+        }
     }
-    return max;
+
+    return max_len;
 }
 
 int* merge(int* intervals, int intervalsSize, int* returnSize) {
