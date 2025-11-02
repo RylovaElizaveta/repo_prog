@@ -1,19 +1,23 @@
 #include "../include/advanced_array_function.h"
 #include <stdlib.h>
 int max_subarray_sum(int* nums, int size) {
-    int max = nums[0];
-    for (int length = 0; length < size; length++) {
-        for (int start = 0; start < size - length; start++) {
-            int local_sum = 0;
-            for (int i = 0; i <= length; i++) {
-                local_sum += nums[start + i];
-            }
-            if (local_sum > max) {
-                max = local_sum;
-            }
+    if (size <= 0) return 0;
+
+    int max_sum = nums[0];
+    int current_sum = nums[0];
+
+    for (int i = 1; i < size; i++) {
+        if (nums[i] > current_sum + nums[i]) {
+            current_sum = nums[i];
+        } else {
+            current_sum = current_sum + nums[i];
+        }
+
+        if (current_sum > max_sum) {
+            max_sum = current_sum;
         }
     }
-    return max;
+    return max_sum;
 }
 
 int length_of_lis(int* nums, int numsSize) {
